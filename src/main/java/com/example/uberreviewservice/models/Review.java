@@ -9,35 +9,22 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.util.Date;
 
-@EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name = "bookingreview")
+@Table(name = "booking_review")
 @Getter
 @Builder
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EnableJpaAuditing
-public class Review {
-
-    @Id  //this annotation make this id primary key of our table
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Review extends BaseModel {
 
     @Column(nullable = false)
     private String content;
 
     private Double rating;
 
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Date createdAt;
 
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    private Date updatedAt;
 
   @Override
     public String toString() {
