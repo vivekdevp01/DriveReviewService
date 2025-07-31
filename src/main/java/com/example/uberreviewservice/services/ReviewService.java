@@ -23,30 +23,30 @@ public class ReviewService implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
             System.out.println("vvvvvvvvvvvvvv");
-//            Review r = Review
-//                    .builder()
-//                    .content("amazing")
-////                    .createdAt(new Date())
-////                    .updatedAt(new Date())
-//                    .rating(4.8)
-//                    .build();
-//           Booking b=Booking
-//                    .builder()
-//                  .review(r)
-//                    .endTime(new Date())
-//                    .build();
-//        bookingRepository.save(b);
-//            System.out.println(r);
-//            reviewRepository.save(r);
+            Review r = Review
+                    .builder()
+                    .content("amazing")
+//                    .createdAt(new Date())
+//                    .updatedAt(new Date())
+                    .rating(4.8)
+                    .build();
+           Booking b=Booking
+                    .builder()
+                  .review(r)
+                    .endTime(new Date())
+                    .build();
+        bookingRepository.save(b);
+            System.out.println(r);
+            reviewRepository.save(r);
 //        List<Review> reviews=reviewRepository.findAll();
 //        System.out.println(r.getId());
 //        for(Review r1:reviews){
 //            System.out.println(r1.getContent());
 //        }
 
-        Optional<Booking> b=bookingRepository.findById(4L);
-      if(b.isPresent()){
-          bookingRepository.delete(b.get());
+        Optional<Booking> b1=bookingRepository.findById(4L);
+      if(b1.isPresent()){
+          bookingRepository.delete(b1.get());
       }
 
     }
