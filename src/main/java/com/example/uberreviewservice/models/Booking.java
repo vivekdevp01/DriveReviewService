@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Booking extends BaseModel{
 
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE},fetch = FetchType.LAZY)
     private Review review; //one to one relationship between booking and review
 
 

@@ -18,4 +18,6 @@ public interface DriverRepository extends JpaRepository<Driver,Long> {
 
    @Query("SELECT d from Driver as d where d.id=:id AND d.licenseNumber=:license")
    Optional<Driver> rawFindByIdAndLicense(long id,String license);
+
+   List<Driver> findAllByIdIn(List<Long> driverIds);
 }

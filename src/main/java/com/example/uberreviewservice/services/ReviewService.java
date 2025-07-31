@@ -6,14 +6,14 @@ import com.example.uberreviewservice.models.Review;
 import com.example.uberreviewservice.repositories.BookingRepository;
 import com.example.uberreviewservice.repositories.DriverRepository;
 import com.example.uberreviewservice.repositories.ReviewRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
+@Transactional
 public class ReviewService implements CommandLineRunner {
     private final BookingRepository bookingRepository;
     private final DriverRepository driverRepository;
@@ -28,12 +28,12 @@ public class ReviewService implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-//            System.out.println("vvvvvvvvvvvvvv");
+            System.out.println("vvvvvvvvvvvvvv");
 //            Review r = Review
 //                    .builder()
 //                    .content("amazing")
-////                    .createdAt(new Date())
-////                    .updatedAt(new Date())
+//                  .createdAt(new Date())
+//                  .updatedAt(new Date())
 //                    .rating(4.8)
 //                    .build();
 //           Booking b=Booking
@@ -73,12 +73,18 @@ public class ReviewService implements CommandLineRunner {
 //    }
 //}
 //Optional<Driver> d=driverRepository.rawfindByIDAndLicenseNumber(1L,"Dl1234" );
-        Optional<Driver> d=driverRepository.rawFindByIdAndLicense(1L,"Dl1234");
-System.out.println(d.get().getName());
+//        Optional<Driver> d=driverRepository.rawFindByIdAndLicense(1L,"Dl1234");
+//System.out.println(d.get().getName());
 
 //for(d.isPresent()){
 //    System.out.println(d.get().getLicenseNumber());
 //}
-
+    List<Long> driverIds=new ArrayList<>(Arrays.asList(1L,2L));
+    List<Driver> drivers=driverRepository.findAllByIdIn(driverIds);
+//    List<Booking> bookings=bookingRepository.findAllByDriverIn(drivers);
+    for(Driver driver:drivers){
+        List<Booking> bookings=driver.getBookings();
+        bookings.forEach(booking->System.out.println(booking.getId()));
+    }
     }
 }
