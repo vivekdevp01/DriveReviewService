@@ -24,6 +24,10 @@ public class Driver extends BaseModel{
     @Column(nullable = false,unique = true)
     private String licenseNumber;
 
+    private String phoneNumber;
+
+    private String address;
+
 //    1:n dirver has many booking
     @OneToMany(mappedBy = "driver",fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
