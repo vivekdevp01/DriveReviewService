@@ -1,11 +1,15 @@
 package com.example.uberreviewservice.controllers;
 
 
+import com.example.uberreviewservice.adaptors.CreateReviewDtoToReviewAdapter;
+import com.example.uberreviewservice.dtos.CreateReviewDto;
+import com.example.uberreviewservice.dtos.ReviewDto;
 import com.example.uberreviewservice.models.Review;
 import com.example.uberreviewservice.services.ReviewService;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,14 +21,28 @@ public class ReviewController {
 
     private ReviewService reviewService;
 
-    public ReviewController(ReviewService reviewService) {
+    private CreateReviewDtoToReviewAdapter  createReviewDtoToReviewAdapter;
+
+    public ReviewController(ReviewService reviewService, CreateReviewDtoToReviewAdapter createReviewDtoToReviewAdapter ) {
         this.reviewService = reviewService;
+        this.createReviewDtoToReviewAdapter = createReviewDtoToReviewAdapter;
     }
 
     @PostMapping
-    public ResponseEntity<Review> publishReview(@RequestBody Review request){
-        Review review=this.reviewService.publishReview(request);
-        return new ResponseEntity<>(review,HttpStatus.CREATED);
+    public ResponseEntity<?> publishReview(@Validated @RequestBody CreateReviewDto request){
+        Review incomplete=this.createReviewDtoToReviewAdapter.convertDto(request);
+        if(incomplete==null){
+           return new ResponseEntity<>("invalid argument",HttpStatus.BAD_REQUEST);
+        }
+        Review review=this.reviewService.publishReview(incomplete);
+        ReviewDto response=ReviewDto.builder().content(review.getContent())
+                .id(review.getId())
+                .booking(review.getBooking().getId())
+                .rating(review.getRating())
+                .createdAt(review.getCreatedAt())
+                .updatedAt(review.getUpdatedAt())
+                .build();
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
     @GetMapping

@@ -1,5 +1,6 @@
 package com.example.uberreviewservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,6 +18,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties( {"hibernateLazyInitializer","handler","bookings"})
+
 public class Driver extends BaseModel{
 
     private String name;
@@ -24,9 +27,13 @@ public class Driver extends BaseModel{
     @Column(nullable = false,unique = true)
     private String licenseNumber;
 
-    private String phoneNumber;
+
 
     private String address;
+
+    private String phoneNumber;
+
+    private String email;
 
 //    1:n dirver has many booking
     @OneToMany(mappedBy = "driver",fetch = FetchType.EAGER)
